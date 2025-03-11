@@ -10,7 +10,7 @@ const int LED_PIN_R = 4;
 volatile int flag_f_r = 0;
 
 volatile int led_ligada = 0;
-volatile int timer_ligado = 0;
+
 repeating_timer_t timer;
 
 //Funcao chamada pelo timer; ela pisca o led a cada 500 ms
@@ -40,6 +40,8 @@ int main() {
 
     gpio_set_irq_enabled_with_callback(BTN_PIN_R, GPIO_IRQ_EDGE_FALL, true, &btn_callback);
 
+    int timer_ligado = 0;
+    
     while (true) {
         // se botao tiver pressionado
         if (flag_f_r == 1) {
