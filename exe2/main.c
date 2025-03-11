@@ -11,6 +11,9 @@ const int LED_PIN_G = 6;
 volatile int flag_r = 0;
 volatile int flag_g = 0;
 
+volatile int led_ligada_R = 0;
+volatile int led_ligada_G = 0;
+
 repeating_timer_t timer_RED;
 repeating_timer_t timer_GREEN;
 
@@ -37,8 +40,6 @@ void btn_callback(uint gpio, uint32_t events) {
     }
 }
 
-volatile int timer_ligado_R = 0;
-volatile int timer_ligado_G = 0;
 
 int main() {
     gpio_init(LED_PIN_R);
@@ -58,13 +59,16 @@ int main() {
     gpio_set_irq_enabled_with_callback(BTN_PIN_R, GPIO_IRQ_EDGE_FALL, true, &btn_callback);
     gpio_set_irq_enabled(BTN_PIN_G, GPIO_IRQ_EDGE_FALL, true);
 
+    int timer_ligado_R = 0;
+    int timer_ligado_G = 0;
+
     while (true) {
 
         if (flag_r == 1)  {
             flag_r = 0;
             
             // Se o timer tiver desligado, liga ele e pisca led, se não, desliga tudo
-
+            
             if (timer_ligado_R == 0){
                 add_repeating_timer_ms(500, timer_callback_RED, NULL, &timer_RED);
                 timer_ligado_R = 1;
