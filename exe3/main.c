@@ -7,7 +7,7 @@ const int LED_PIN_R = 4;
 
 volatile int flag_f_r = 0;
 volatile int flag_botao_solto = 0;
-volatile int led_aceso = 0;
+
 
 void btn_callback(uint gpio, uint32_t events) {
     if (events == 0x4) { // fall edge
@@ -36,7 +36,7 @@ int main() {
         BTN_PIN_R, GPIO_IRQ_EDGE_FALL | GPIO_IRQ_EDGE_RISE, true, &btn_callback);
     
     uint32_t tempo_pressionado;
-
+    int led_aceso = 0;
     while (true) {
 
         if (flag_f_r == 1) {
@@ -52,7 +52,7 @@ int main() {
                 led_aceso = 1 - led_aceso;
                 gpio_put(LED_PIN_R, led_aceso);
             }
-            
+
             //reseta e volta ao inicio
             flag_botao_solto = 0;
         }
