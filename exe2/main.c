@@ -28,6 +28,7 @@ bool timer_callback_RED(repeating_timer_t *rt){
 bool timer_callback_GREEN(repeating_timer_t *rt){
     led_ligada_G = 1 - led_ligada_G;
     gpio_put(LED_PIN_G, led_ligada_G);
+
     return true; //timer fica rodando até que o botao seja pressionado dnv
 }
 
@@ -35,6 +36,8 @@ void btn_callback(uint gpio, uint32_t events) {
     if (events == 0x4) {
         if (gpio == BTN_PIN_R)
             flag_r = 1;
+
+            
         else if (gpio == BTN_PIN_G)
             flag_g = 1;
     }
@@ -68,7 +71,7 @@ int main() {
             flag_r = 0;
             
             // Se o timer tiver desligado, liga ele e pisca led, se não, desliga tudo
-            
+
             if (timer_ligado_R == 0){
                 add_repeating_timer_ms(500, timer_callback_RED, NULL, &timer_RED);
                 timer_ligado_R = 1;
